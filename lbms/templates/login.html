@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="row main-content bg-success text-center">
+      {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'success'%}success{% else%}danger{% endif%} alert-dismissable">
+      <span>{{ message }}</span>
+    </div>
+    {% endfor %}
+    {% endif %}
+      <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+
+        <div class="container-fluid">
+          <div class="row">
+            <h2>Admin Log In</h2>
+          </div>
+          <div class="row">
+            <form control="" class="form-group" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <input type="text" name="username" id="username" class="form__input" placeholder="Email">
+              </div>
+              <div class="row">
+                <input type="password" name="password" id="password" class="form__input" placeholder="Password">
+              </div>
+              <div class="row w-50 text-center" style="margin-left: 30%;">
+                <input type="submit" value="Submit" class="btn1  text-center">
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <p>Don't have an account? <a href="/signup">Register Here</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% block script %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    window.setTimeout(function () {
+      $(".alert").fadeTo(200, 0).slideUp(200, function () {
+        $(this).remove();
+      });
+    }, 2000);
+  });
+</script>
+{% endblock %}
+{% endblock %}

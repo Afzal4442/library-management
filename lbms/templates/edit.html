@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="">
+
+    <form id="create_book_form" name="create_book_form" class="form-horizontal" role="form" method="POST"
+        action="/edit/{{book.id}}">
+        <a href="/" id="back_anchor" class="btn btn-secondary waves-effect pull-right mt-3 mb-3">Back</a>
+        {% csrf_token %}
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card-box">
+                    <div class="member-card">
+                        <div class="text-left">
+                            <h4 class="m-t-0 header-title">Edit Book Details</h4>
+                            <hr>
+                            <div id="" class="form-group row">
+                                <label class="col-4 col-form-label">Name <sup class="required-field">*</sup></label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" name="name" placeholder="Enter Book Name"
+                                        autocomplete="off" value="{{book.name}}" required>
+                                </div>
+                            </div>
+                            <div id="" class="form-group row">
+                                <label class="col-4 col-form-label">Author <sup class="required-field">*</sup></label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control" name="author"
+                                        placeholder="Enter Author Name" autocomplete="off" value="{{book.author}}" required>
+                                </div>
+                            </div>
+                            <div id="" class="form-group row">
+                                <label class="col-4 col-form-label">Publish date <sup
+                                        class="required-field">*</sup></label>
+                                <div class="col-8">
+                                    <input type="date" id="date" class="form-control" name="publish_date"
+                                        placeholder="Enter Author Name" autocomplete="off" value="{{book.publish_date | date:'Y-m-j'}}" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 text-center m-t-30">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light m-3">Submit</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

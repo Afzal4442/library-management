@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{% if message.tags == 'success'%}success{% else%}danger{% endif%} alert-dismissable">
+    <span>{{ message }}</span>
+</div>
+{% endfor %}
+{% endif %}
+{% if request.session.admin %}
+<div class="">
+    <!-- <button type="button" class="btn btn-primary">Primary</button> -->
+    <a href="{% url 'create' %}" class="btn btn-primary waves-effect waves-light m-2" style="float: right;"
+        title="Create Order">Add Book</a>
+</div>
+{% endif %}
+<table id="books_table" class="table table-striped nowrap" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            {% if request.session.admin %}
+            <th>Action</th>
+            {% endif %}
+            <th scope="col">Book Id</th>
+            <th scope="col">Book Name</th>
+            <th scope="col">Author Name</th>
+            <th scope="col">Publish Date</th>
+            <th scope="col">Added Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for val in books %}
+        <tr>
+            {% if request.session.admin %}
+            <td>
+                <a class="btn btn-primary" href="/view/{{val.id}}">View </a>
+                <a class="btn btn-primary" href="/edit/{{val.id}}">Edit </a>
+                <a class="btn btn-primary" href="#" onclick="delete_book({{val.id}})">Delete </a>
+            </td>
+            {% endif %}
+            <td>{{val.id}}</td>
+            <td>{{val.name}}</td>
+            <td>{{val.author}}</td>
+            <td>{{val.publish_date}}</td>
+            <td>{{val.created_at}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            $(".alert").fadeTo(200, 0).slideUp(200, function () {
+                $(this).remove();
+            });
+        }, 2000);
+    });
+    function delete_book(book_id) {
+        swal({
+            title: 'Are you sure?',
+            text: "Do you want to delete book!",
+            icon: "warning",
+            buttons: [
+                'No, cancel it!',
+                'Yes, I am sure!'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                var formData = {
+                    'book_id': book_id,
+                    'csrfmiddlewaretoken': $("[name=csrfmiddlewaretoken]").val()
+                };
+                $.ajax({
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    data : formData,
+                    url: '/delete',
+                    success: function(result) {
+                        if (result.data == true){
+                            location.reload()
+                        } 
+                    }
+                });
+            }
+
+        })
+    }
+</script>
+{% endblock %}

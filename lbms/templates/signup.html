@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+    <!-- Main Content -->
+    <div class="container-fluid">
+
+        <div class="row main-content bg-success text-center">
+
+            <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+                {% if messages %}
+                {% for message in messages %}
+                <div
+                    class="alert alert-{% if message.tags == 'success'%}success{% else%}danger{% endif%} alert-dismissable">
+                    <span>{{ message }}</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="container-fluid">
+                    <div class="row">
+                        <h2>Create Admin</h2>
+                    </div>
+                    <div class="row">
+                        <form control="" class="form-group" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <input type="text" name="username" id="username" class="form__input" placeholder="Email"
+                                    required>
+                            </div>
+                            <div class="row">
+                                <input type="password" name="password" id="password" class="form__input"
+                                    placeholder="Password" required>
+                            </div>
+                            <div class="row">
+                                <input type="text" name="cnf_password" id="cnf_password" class="form__input"
+                                    placeholder="Confirm Password" required>
+                            </div>
+                            <div class="row w-50 text-center" style="margin-left: 30%;">
+                                <input type="submit" value="Submit" class="btn1  text-center">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <p><a href="/">Back to login</a></p>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            $(".alert").fadeTo(200, 0).slideUp(200, function () {
+                $(this).remove();
+            });
+        }, 2000);
+    });
+</script>
+{% endblock %}
+{% endblock %}
